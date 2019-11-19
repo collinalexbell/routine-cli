@@ -4,6 +4,7 @@
 #include <check.h>
 #include "routine.h"
 #include <stdlib.h>
+#include <unistd.h>
 
 // This is to ensure that the correct env var is being used.
 // HOME should be set in almost every environment. Will throw error if not set.
@@ -25,6 +26,23 @@ START_TEST (test_routine_get_home_dir_returns_HOME_env_var) {
         get_home_dir(home_dir);
         ck_assert_str_eq(home_dir, expected[i]);
     }
+}
+END_TEST
+
+START_TEST (test_load_routine_file)
+{
+    int path_max = 256;
+    char test_home_dir[path_max];
+    char routine[256];
+
+    getcwd(test_home_dir, path_max);
+    strcat(test_home_dir, "/tests/data");
+    setenv("HOME", test_home_dir, 1);
+
+    read_file("test_load_routine_file", routine);
+
+    ck_assert_str_eq(routine, "abc\ndef\nghi\n");
+
 }
 END_TEST
 

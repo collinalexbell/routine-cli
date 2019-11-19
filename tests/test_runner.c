@@ -14,6 +14,7 @@ Suite* suite(void)
 
     tcase_add_test(tc_core, test_routine_get_home_dir_returns_non_null_with_default_env);
     tcase_add_test(tc_core, test_routine_get_home_dir_returns_HOME_env_var);
+    tcase_add_test(tc_core, test_load_routine_file);
     suite_add_tcase(s, tc_core);
 
     return s;
