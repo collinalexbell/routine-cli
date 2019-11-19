@@ -5,6 +5,8 @@
 #include "routine.h"
 #include <stdlib.h>
 
+// This is to ensure that the correct env var is being used.
+// HOME should be set in almost every environment. Will throw error if not set.
 START_TEST (test_routine_get_home_dir_returns_non_null_with_default_env)
 {
     char home_dir[124];
