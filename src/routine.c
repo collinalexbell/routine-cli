@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <linux/limits.h>
+
 
 void get_home_dir(char *mem)
 {
@@ -26,4 +28,33 @@ void read_file(char* file_name, char* buf)
         cur_pos++;
     }
     buf[cur_pos] = '\0';
+}
+
+struct Strings get_only_files(char* dir) {
+    struct Strings rv;
+    FILE *fd;
+    int i;
+
+    char cmd[256];
+    strcpy(cmd, "ls -al ");
+    strcat(cmd, dir);
+    strcat(cmd, " | grep '^-' | wc -l");
+
+    fd = popen(cmd, "r");
+    fscanf(fd, "%d\n", &rv.num);
+    rv.ptr = (char**) malloc(sizeof(char*) * rv.num);
+
+    strcpy(cmd, "ls -al ");
+    strcat(cmd, dir);
+    strcat(cmd, " | grep '^-' | awk '{print $9}'");
+
+    fd = popen(cmd, "r");
+    i = 0;
+    while(!feof(fd) && !ferror(fd)){
+        rv.ptr[i] = malloc(sizeof(char) * PATH_MAX);
+        fscanf(fd, "%s\n", rv.ptr[i]);
+        i++;
+    }
+
+    return rv;
 }

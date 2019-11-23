@@ -46,4 +46,13 @@ START_TEST (test_load_routine_file)
 }
 END_TEST
 
+START_TEST (test_list_files_exclude_dirs) {
+    struct Strings files = get_only_files("./tests/data/test_list_files_exclude_dirs");
+
+    ck_assert_int_eq(files.num, 2);
+    ck_assert_str_eq(files.ptr[0], "that");
+    ck_assert_str_eq(files.ptr[1], "this");
+}
+END_TEST
+
 #endif
